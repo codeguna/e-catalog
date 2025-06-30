@@ -9,7 +9,7 @@
         </div>
 
         <div class="card-body">
-            <form action="{{ route('admin.roles.update', [$role->id]) }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('backend.roles.update', [$role->id]) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 <div class="form-group {{ $errors->has('name') ? 'has-error' : '' }}">

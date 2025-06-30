@@ -6,7 +6,7 @@
     @can('users_manage')
         <div style="margin-bottom: 10px;" class="row">
             <div class="col-lg-12">
-                <a class="btn btn-success" href="{{ route('admin.users.create') }}">
+                <a class="btn btn-success" href="{{ route('backend.users.create') }}">
                     {{ trans('global.add') }} {{ trans('cruds.user.title_singular') }}
                 </a>
             </div>
@@ -62,15 +62,15 @@
                                 @endforeach
                             </td>
                             <td>
-                                <a class="btn btn-xs btn-primary" href="{{ route('admin.users.show', $user->id) }}">
+                                <a class="btn btn-xs btn-primary" href="{{ route('backend.users.show', $user->id) }}">
                                     <i class="fa fa-eye"></i>
                                 </a>
 
-                                <a class="btn btn-xs btn-warning" href="{{ route('admin.users.edit', $user->id) }}">
+                                <a class="btn btn-xs btn-warning" href="{{ route('backend.users.edit', $user->id) }}">
                                     <i class="fa fa-edit"></i>
                                 </a>
 
-                                <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST"
+                                <form action="{{ route('backend.users.destroy', $user->id) }}" method="POST"
                                     onsubmit="return confirm('{{ trans('global.areYouSure') }}');"
                                     style="display: inline-block;">
                                     <input type="hidden" name="_method" value="DELETE">

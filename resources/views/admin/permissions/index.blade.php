@@ -5,7 +5,7 @@
 @section('content')
     <div style="margin-bottom: 10px;" class="row">
         <div class="col-lg-12">
-            <a class="btn btn-success" href="{{ route('admin.permissions.create') }}">
+            <a class="btn btn-success" href="{{ route('backend.permissions.create') }}">
                 {{ trans('global.add') }} {{ trans('cruds.permission.title_singular') }}
             </a>
         </div>
@@ -48,16 +48,16 @@
                                 </td>
                                 <td>
                                     <a class="btn btn-xs btn-primary"
-                                        href="{{ route('admin.permissions.show', $permission->id) }}">
+                                        href="{{ route('backend.permissions.show', $permission->id) }}">
                                         <i class="fa fa-eye"></i>
                                     </a>
 
                                     <a class="btn btn-xs btn-warning"
-                                        href="{{ route('admin.permissions.edit', $permission->id) }}">
+                                        href="{{ route('backend.permissions.edit', $permission->id) }}">
                                         <i class="fa fa-edit"></i>
                                     </a>
 
-                                    <form action="{{ route('admin.permissions.destroy', $permission->id) }}" method="POST"
+                                    <form action="{{ route('backend.permissions.destroy', $permission->id) }}" method="POST"
                                         onsubmit="return confirm('{{ trans('global.areYouSure') }}');"
                                         style="display: inline-block;">
                                         <input type="hidden" name="_method" value="DELETE">
@@ -85,7 +85,7 @@
             let deleteButtonTrans = '{{ trans('global.datatables.delete') }}'
             let deleteButton = {
                 text: deleteButtonTrans,
-                url: "{{ route('admin.permissions.mass_destroy') }}",
+                url: "{{ route('backend.permissions.mass_destroy') }}",
                 className: 'btn-danger',
                 action: function(e, dt, node, config) {
                     var ids = $.map(dt.rows({

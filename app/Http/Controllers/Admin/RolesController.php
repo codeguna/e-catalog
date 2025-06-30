@@ -58,7 +58,7 @@ class RolesController extends Controller
         $permissions = $request->input('permission') ? $request->input('permission') : [];
         $role->givePermissionTo($permissions);
 
-        return redirect()->route('admin.roles.index');
+        return redirect()->route('backend.roles.index');
     }
 
 
@@ -95,7 +95,7 @@ class RolesController extends Controller
         $permissions = $request->input('permission') ? $request->input('permission') : [];
         $role->syncPermissions($permissions);
 
-        return redirect()->route('admin.roles.index');
+        return redirect()->route('backend.roles.index');
     }
 
     public function show(Role $role)
@@ -124,7 +124,7 @@ class RolesController extends Controller
 
         $role->delete();
 
-        return redirect()->route('admin.roles.index');
+        return redirect()->route('backend.roles.index');
     }
 
     /**

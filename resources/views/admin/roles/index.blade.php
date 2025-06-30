@@ -5,7 +5,7 @@
 @section('content')
     <div style="margin-bottom: 10px;" class="row">
         <div class="col-lg-12">
-            <a class="btn btn-success" href="{{ route('admin.roles.create') }}">
+            <a class="btn btn-success" href="{{ route('backend.roles.create') }}">
                 {{ trans('global.add') }} {{ trans('cruds.role.title_singular') }}
             </a>
         </div>
@@ -55,15 +55,15 @@
                                     @endforeach
                                 </td>
                                 <td>
-                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.roles.show', $role->id) }}">
+                                    <a class="btn btn-xs btn-primary" href="{{ route('backend.roles.show', $role->id) }}">
                                         <i class="fa fa-eye"></i>
                                     </a>
 
-                                    <a class="btn btn-xs btn-warning" href="{{ route('admin.roles.edit', $role->id) }}">
+                                    <a class="btn btn-xs btn-warning" href="{{ route('backend.roles.edit', $role->id) }}">
                                         <i class="fa fa-edit"></i>
                                     </a>
 
-                                    <form action="{{ route('admin.roles.destroy', $role->id) }}" method="POST"
+                                    <form action="{{ route('backend.roles.destroy', $role->id) }}" method="POST"
                                         onsubmit="return confirm('{{ trans('global.areYouSure') }}');"
                                         style="display: inline-block;">
                                         <input type="hidden" name="_method" value="DELETE">
@@ -91,7 +91,7 @@
             let deleteButtonTrans = '{{ trans('global.datatables.delete') }}'
             let deleteButton = {
                 text: deleteButtonTrans,
-                url: "{{ route('admin.roles.mass_destroy') }}",
+                url: "{{ route('backend.roles.mass_destroy') }}",
                 className: 'btn-danger',
                 action: function(e, dt, node, config) {
                     var ids = $.map(dt.rows({

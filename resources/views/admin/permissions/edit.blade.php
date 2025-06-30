@@ -9,7 +9,7 @@
         </div>
 
         <div class="card-body">
-            <form action="{{ route('admin.permissions.update', [$permission->id]) }}" method="POST"
+            <form action="{{ route('backend.permissions.update', [$permission->id]) }}" method="POST"
                 enctype="multipart/form-data">
                 @csrf
                 @method('PUT')

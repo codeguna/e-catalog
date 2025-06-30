@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\GoogleController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -14,7 +15,7 @@ Auth::routes(['register' => false]);
 Route::get('change_password', 'Auth\ChangePasswordController@showChangePasswordForm')->name('auth.change_password');
 Route::patch('change_password', 'Auth\ChangePasswordController@changePassword')->name('auth.change_password');
 
-Route::group(['middleware' => ['auth'], 'prefix' => 'admin', 'as' => 'admin.'], function () {
+Route::group(['middleware' => ['auth'], 'prefix' => 'backend', 'as' => 'backend.'], function () {
     Route::get('/home', 'HomeController@index')->name('home');
     Route::resource('permissions', 'Admin\PermissionsController');
     Route::delete('permissions_mass_destroy', 'Admin\PermissionsController@massDestroy')->name('permissions.mass_destroy');
@@ -22,4 +23,6 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin', 'as' => 'admin.'], 
     Route::delete('roles_mass_destroy', 'Admin\RolesController@massDestroy')->name('roles.mass_destroy');
     Route::resource('users', 'Admin\UsersController');
     Route::delete('users_mass_destroy', 'Admin\UsersController@massDestroy')->name('users.mass_destroy');
+
+    Route::resource('products', 'ProductController');
 });

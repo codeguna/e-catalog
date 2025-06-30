@@ -58,7 +58,7 @@ class UsersController extends Controller
         $roles = $request->input('roles') ? $request->input('roles') : [];
         $user->assignRole($roles);
 
-        return redirect()->route('admin.users.index');
+        return redirect()->route('backend.users.index');
     }
 
 
@@ -95,7 +95,7 @@ class UsersController extends Controller
         $roles = $request->input('roles') ? $request->input('roles') : [];
         $user->syncRoles($roles);
 
-        return redirect()->route('admin.users.index');
+        return redirect()->route('backend.users.index');
     }
 
     public function show(User $user)
@@ -123,7 +123,7 @@ class UsersController extends Controller
 
         $user->delete();
 
-        return redirect()->route('admin.users.index');
+        return redirect()->route('backend.users.index');
     }
 
     /**

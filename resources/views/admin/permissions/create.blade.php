@@ -9,7 +9,7 @@
         </div>
 
         <div class="card-body">
-            <form action="{{ route('admin.permissions.store') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('backend.permissions.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="form-group {{ $errors->has('name') ? 'has-error' : '' }}">
                     <label for="name">{{ trans('cruds.permission.fields.title') }}*</label>
