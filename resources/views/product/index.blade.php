@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 
 @section('title')
-   Product
+    Product
 @endsection
 
 @section('content')
@@ -13,7 +13,7 @@
                         <div style="display: flex; justify-content: space-between; align-items: center;">
 
                             <span id="card_title">
-                               <i class="fa fa-list" aria-hidden="true"></i> List Product
+                                <i class="fa fa-list" aria-hidden="true"></i> List Product
                             </span>
 
                             <div class="float-right">
@@ -33,7 +33,7 @@
 
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-striped table-hover">
+                            <table class="table table-striped table-hover" id="example1">
                                 <thead class="thead">
                                     <tr>
                                         <th>No</th>
@@ -54,23 +54,34 @@
 
                                             <td>{{ $product->name }}</td>
                                             <td>{{ $product->description }}</td>
-                                            <td>{{ $product->picture }}</td>
-                                            <td>{{ $product->type }}</td>
-                                            <td>{{ $product->price }}</td>
+                                            <td>
+                                                <img class="profile-user-img img-fluid"
+                                                    src="/product_pictures/{{ $product->picture }}" style="height: 100px"
+                                                    alt="Product picture" loading="lazy">
+                                            </td>
+                                            <td>
+                                                @if ($product->type == 1)
+                                                    Satuan
+                                                @elseif ($product->type == 2)
+                                                    Paket
+                                                @elseif ($product->type == 3)
+                                                    Sekolah
+                                                @endif
+                                            </td>
+                                            <td>
+                                                Rp. {{ number_format($product->price) }}</td>
 
                                             <td>
                                                 <form action="{{ route('backend.products.destroy', $product->id) }}"
                                                     method="POST">
-                                                    <a class="btn btn-sm btn-primary "
-                                                        href="{{ route('backend.products.show', $product->id) }}"><i
-                                                            class="fa fa-fw fa-eye"></i> {{ __('Show') }}</a>
                                                     <a class="btn btn-sm btn-success"
                                                         href="{{ route('backend.products.edit', $product->id) }}"><i
-                                                            class="fa fa-fw fa-edit"></i> {{ __('Edit') }}</a>
+                                                            class="fa fa-fw fa-edit"></i></a>
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-danger btn-sm"><i
-                                                            class="fa fa-fw fa-trash"></i> {{ __('Delete') }}</button>
+                                                            class="fa fa-fw fa-trash"
+                                                            onclick="return confirm('Delete Product {{ $product->name }}?')"></i></button>
                                                 </form>
                                             </td>
                                         </tr>
@@ -80,8 +91,29 @@
                         </div>
                     </div>
                 </div>
-                {!! $products->links() !!}
             </div>
         </div>
     </div>
+@endsection
+@section('scripts')
+    @parent
+    <script>
+        $(function() {
+            $("#example1").DataTable({
+                "responsive": true,
+                "lengthChange": false,
+                "autoWidth": false,
+                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+            $('#example2').DataTable({
+                "paging": true,
+                "lengthChange": false,
+                "searching": false,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
+        });
+    </script>
 @endsection

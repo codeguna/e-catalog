@@ -28,7 +28,7 @@
                                 <small class="form-text text-danger">*max 2mb .jpg</small>
                             </div>
                         </div>
-                        <div class="col-sm-12">
+                        <div class="col-sm-6">
                             <div class="form-group">
                                 <label>Product Type</label>
                                 <select class="form-control" name="type" required>
@@ -37,6 +37,12 @@
                                     <option value="2">Paket</option>
                                     <option value="3">Sekolah</option>
                                 </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Product Price</label>
+                                <input type="number" min="0" class="form-control" name="price" required>
                             </div>
                         </div>
                     </div>

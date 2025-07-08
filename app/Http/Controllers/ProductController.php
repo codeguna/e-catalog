@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 /**
  * Class ProductController
@@ -18,10 +19,10 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::paginate();
+        $products = Product::all();
 
         return view('product.index', compact('products'))
-            ->with('i', (request()->input('page', 1) - 1) * $products->perPage());
+            ->with('i');
     }
 
     /**
@@ -43,9 +44,34 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        request()->validate(Product::$rules);
+        $validator = Validator::make($request->all(), Product::$rules);
+        if ($validator->fails()) {
+            // Jika validasi gagal, kembali ke halaman sebelumnya dengan pesan error
+            return redirect()
+                ->back()
+                ->withErrors($validator)
+                ->withInput()
+                ->with('error', 'Periksa kembali inputan anda dan pastikan file tidak melebihi 2MB');
+        }
+        $picture_file   = $request->file('picture');
+        $name           = $request->name;
+        $description    = $request->description;
+        $type           = $request->type;
+        $price          = $request->price;
 
-        $product = Product::create($request->all());
+        $name_file = time() . "_" . $picture_file->getClientOriginalName();
+        // isi dengan nama folder tempat kemana file diupload
+        $tujuan_upload = 'product_pictures';
+        $picture_file->move($tujuan_upload, $name_file);
+
+        $educationalStaffs  = Product::create([
+            'name'          => $name,
+            'description'   => $description,
+            'type'          => $type,
+            'price'         => $price,
+            'picture'       => $name_file,
+            'created_at'    => now()
+        ]);
 
         return redirect()->route('backend.products.index')
             ->with('success', 'Product created successfully.');
@@ -88,10 +114,46 @@ class ProductController extends Controller
     {
         request()->validate(Product::$rules);
 
-        $product->update($request->all());
+        $validator = Validator::make($request->all(), Product::$rules);
+        if ($validator->fails()) {
+            // If validation fails, redirect back with error messages
+            return redirect()
+                ->back()
+                ->withErrors($validator)
+                ->withInput()
+                ->with('error', 'Periksa kembali inputan anda dan pastikan file tidak melebihi 2MB');
+        }
 
-        return redirect()->route('backend.products.index')
-            ->with('success', 'Product updated successfully');
+        $name           = $request->name;
+        $description    = $request->description;
+        $type           = $request->type;
+        $price          = $request->price;
+
+        $updateData = [
+            'name'          => $name,
+            'description'   => $description,
+            'type'          => $type,
+            'price'         => $price,
+        ];
+
+        $picture_file = $request->file('picture');
+        if ($picture_file) {
+            $name_file = time() . "_" . $picture_file->getClientOriginalName();
+            // Directory for uploading the file
+            $tujuan_upload = 'product_pictures';
+            $picture_file->move($tujuan_upload, $name_file);
+
+            $updateData['id_card'] = $name_file;
+        }
+
+        if ($product) {
+            $product->update($updateData);
+
+            return redirect()->route('backend.products.index')
+                ->with('success', 'Product updated successfully');
+        }
+
+        return redirect()->back()->with('error', 'EducationalStaff not found');
     }
 
     /**

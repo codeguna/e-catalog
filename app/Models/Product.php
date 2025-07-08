@@ -25,7 +25,7 @@ class Product extends Model
     static $rules = [
 		'name' => 'required',
 		'description' => 'required',
-		'picture' => 'required',
+		'picture' => 'mimes:jpg,jpeg|max:2048',
 		'type' => 'required',
 		'price' => 'required',
     ];
