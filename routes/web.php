@@ -1,11 +1,12 @@
 <?php
 
+use App\Http\Controllers\FrontEndController;
 use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-Route::redirect('/', 'backend/home');
+Route::get('/', [FrontEndController::class, 'home']);
 Route::get('auth/google', [GoogleController::class, 'redirectToGoogle']);
 Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
 
