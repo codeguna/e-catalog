@@ -10,6 +10,11 @@ Route::get('/', [FrontEndController::class, 'home']);
 Route::get('auth/google', [GoogleController::class, 'redirectToGoogle']);
 Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
 
+Route::group(['middleware' => ['auth']], function () {
+    Route::get('/addToCart/{id}', [FrontEndController::class, 'addToCart'])->name('addcart');
+    Route::get('/mycart', [FrontEndController::class, 'myCart'])->name('myCart');
+});
+
 Auth::routes(['register' => false]);
 
 // Change Password Routes...

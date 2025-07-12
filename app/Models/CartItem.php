@@ -19,22 +19,28 @@ use Illuminate\Database\Eloquent\Model;
  */
 class CartItem extends Model
 {
-    
-    static $rules = [
-		'user_id' => 'required',
-		'product_id' => 'required',
-		'quantity' => 'required',
-    ];
 
-    protected $perPage = 20;
-    protected $table = 'cart_items';
-    /**
-     * Attributes that should be mass-assignable.
-     *
-     * @var array
-     */
-    protected $fillable = ['user_id','product_id','quantity'];
+  static $rules = [
+    'user_id' => 'required',
+    'product_id' => 'required',
+    'quantity' => 'required',
+  ];
 
+  protected $perPage = 20;
+  protected $table = 'cart_items';
+  /**
+   * Attributes that should be mass-assignable.
+   *
+   * @var array
+   */
+  protected $fillable = ['user_id', 'product_id', 'quantity'];
 
-
+  public function product()
+  {
+    return $this->belongsTo('App\Models\Product');
+  }
+  public function user()
+  {
+    return $this->belongsTo('App\User');
+  }
 }

@@ -103,7 +103,7 @@ class CartItemController extends Controller
     {
         $cartItem = CartItem::find($id)->delete();
 
-        return redirect()->route('cart-items.index')
-            ->with('success', 'CartItem deleted successfully');
+        return redirect()->back()
+            ->with('success', 'Produk berhasil dihapus!');
     }
 }

@@ -5,6 +5,7 @@
 @endsection
 
 @section('content')
+@include('frontend.layouts.spinner')
     <!-- Fruits Shop Start-->
     <div class="container-fluid fruite py-5">
         <div class="container py-5">
@@ -50,7 +51,7 @@
                                                     <p>{{$items->description}}</p>
                                                     <div class="d-flex justify-content-between flex-lg-wrap">
                                                         <p class="text-dark fs-5 fw-bold mb-0">Rp. {{ number_format($items->price) }},-</p>
-                                                        <a href="#"
+                                                        <a href="{{ route('addcart',$items->id) }}"
                                                             class="btn border border-secondary rounded-pill px-3 text-primary"><i
                                                                 class="fa fa-shopping-bag me-2 text-primary"></i> Add
                                                             to cart</a>

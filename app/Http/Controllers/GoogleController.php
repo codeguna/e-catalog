@@ -36,7 +36,7 @@ class GoogleController extends Controller
             }
             if ($finduser) {
                 Auth::login($finduser);
-                return redirect('/admin/home');
+                return redirect('/');
             } else {
 
                 $newUser = User::create([
@@ -51,7 +51,7 @@ class GoogleController extends Controller
                 //  $newUser->givePermissionTo('view_attendances');
 
                 Auth::login($newUser);
-                return redirect('/admin/home');
+                return redirect('/');
             }
         } catch (Exception $e) {
             dd($e->getMessage());

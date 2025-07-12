@@ -25,7 +25,7 @@
         <!-- /.login-logo -->
         <div class="card">
             <div class="card-body login-card-body">
-                <p class="login-box-msg">Sign in to start your session</p>
+                <p class="login-box-msg">Penjual, silahkan login dengan isi email dan password</p>
 
                 <form method="POST" action="{{ route('login') }}">
                     @csrf
@@ -77,7 +77,7 @@
                 </form>
 
                 <div class="social-auth-links text-center mb-3">
-                    <p>- OR -</p>
+                    <p>- Pembeli, silahkan login dengan menekan tombol google -</p>
                     <a href="{{ url('auth/google') }}" class="btn btn-block btn-primary">
                         <i class="fab fa-google mr-2"></i> Sign in using Google
                     </a>
