@@ -13,6 +13,7 @@ Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallba
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/addToCart/{id}', [FrontEndController::class, 'addToCart'])->name('addcart');
     Route::get('/mycart', [FrontEndController::class, 'myCart'])->name('myCart');
+    Route::resource('cart-items', 'CartItemController');
 });
 
 Auth::routes(['register' => false]);

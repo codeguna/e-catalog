@@ -63,9 +63,13 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <button class="btn btn-md rounded-circle bg-light border mt-4">
-                                        <i class="fa fa-times text-danger"></i>
-                                    </button>
+                                    <form action="{{ route('cart-items.destroy', $items->id) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-md rounded-circle bg-light border mt-4" onclick="return confirm('Hapus produk {{ $items->product->name }} dari keranjang?')">
+                                            <i class="fa fa-times text-danger"></i>
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
                         @endforeach
@@ -81,7 +85,7 @@
                             <div class="d-flex justify-content-between mb-4">
                                 <h5 class="mb-0 me-4">Senilai:</h5>
                                 <p class="mb-0">
-                                   Rp. {{ number_format($totalPrice) }},-
+                                    Rp. {{ number_format($totalPrice) }},-
                                 </p>
                             </div>
                         </div>
