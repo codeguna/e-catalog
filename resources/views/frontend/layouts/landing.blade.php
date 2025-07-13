@@ -57,8 +57,8 @@
             </div>
             <div class="container px-0">
                 <nav class="navbar navbar-light bg-white navbar-expand-xl">
-                    <a href="index.html" class="navbar-brand">
-                        <h1 class="text-primary display-6">Fruitables</h1>
+                    <a href="{{ url('/') }}" class="navbar-brand">
+                        <h1 class="text-primary display-6">{{ env('APP_NAME') }}</h1>
                     </a>
                     <button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse"
                         data-bs-target="#navbarCollapse">
@@ -66,24 +66,33 @@
                     </button>
                     <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
                         @include('frontend.layouts.menu')
-                        <div class="d-flex m-3 me-0">
-                            <a href="{{ route('myCart') }}" class="position-relative me-4 my-auto">
+                        <div class="d-flex align-items-center m-3 me-0 gap-3">
+                            <!-- Cart Icon -->
+                            <a href="{{ route('myCart') }}" class="position-relative">
                                 <i class="fa fa-shopping-bag fa-2x"></i>
-                                <span
-                                    class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1"
-                                    style="top: -5px; left: 15px; height: 20px; min-width: 20px;">
                                 @auth
-                                @php
-                                    $cartCount = App\Models\CartItem::where('user_id',Auth::user()->id)->count();
-                                @endphp
-                                    {{ $cartCount }}
+                                    @php
+                                        $cartCount = App\Models\CartItem::where('user_id', Auth::id())->count();
+                                    @endphp
+                                    <span
+                                        class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark"
+                                        style="top: -5px; left: 15px; height: 20px; min-width: 20px; font-size: 0.8rem;">
+                                        {{ $cartCount }}
+                                    </span>
                                 @endauth
-                                </span>
                             </a>
-                            <a href="#" class="my-auto">
+
+                            <!-- Order Icon -->
+                            <a href="{{ route('myorder') }}">
                                 <i class="fas fa-user fa-2x"></i>
                             </a>
+
+                            <!-- Logout Icon -->
+                            <a href="#" onclick="event.preventDefault(); document.getElementById('logoutform').submit();">
+                                <i class="fas fa-sign-out-alt fa-2x"></i>
+                            </a>
                         </div>
+
                     </div>
                 </nav>
             </div>
@@ -91,7 +100,7 @@
         <!-- Navbar End -->
         @yield('content')
 
-        
+
         @include('frontend.layouts.footer')
         @include('frontend.layouts.copyright')
 
@@ -102,7 +111,9 @@
         <a href="#" class="btn btn-primary border-3 border-primary rounded-circle back-to-top"><i
                 class="fa fa-arrow-up"></i></a>
 
-
+        <form id="logoutform" action="{{ route('logout') }}" method="POST" style="display: none;">
+            {{ csrf_field() }}
+        </form>
         <!-- JavaScript Libraries -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>

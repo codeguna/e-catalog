@@ -28,51 +28,66 @@
                         @php
                             $totalPrice = 0;
                         @endphp
-                        @foreach ($cartList as $items)
-                            @php
-                                $totalPrice += $items->product->price;
-                            @endphp
+                        <form action="{{ route('proceed') }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            @forelse ($cartList as $items)
+                                @php
+                                    $totalPrice += $items->product->price;
+                                @endphp
+                                <tr>
+                                    <input type="hidden" name="product_id[]" value="{{ $items->product_id }}">
+                                    <th scope="row">
+                                        <div class="d-flex align-items-center">
+                                            <img src="/product_pictures/{{ $items->product->picture }}"
+                                                class="img-fluid me-5 rounded-circle" style="width: 80px; height: 80px;"
+                                                alt="">
+                                        </div>
+                                    </th>
+                                    <td>
+                                        <p class="mb-0 mt-4">{{ $items->product->name }}</p>
+                                    </td>
+                                    <td>
+                                        <p class="mb-0 mt-4">Rp. {{ number_format($items->product->price) }}</p>
+                                        <input type="hidden" name="price[]" value="{{ $items->product->price }}">
+                                    </td>
+                                    <td>
+                                        <div class="input-group quantity mt-4" style="width: 100px;">
+                                            <div class="input-group-btn">
+                                                <button class="btn btn-sm btn-minus rounded-circle bg-light border">
+                                                    <i class="fa fa-minus"></i>
+                                                </button>
+                                            </div>
+                                            <input type="text" name="quantity[]"
+                                                class="form-control form-control-sm text-center border-0"
+                                                value="{{ $items->quantity }}">
+                                            <div class="input-group-btn">
+                                                <button class="btn btn-sm btn-plus rounded-circle bg-light border">
+                                                    <i class="fa fa-plus"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                            <a href="{{ route('delete',$items->id) }}" class="btn btn-md rounded-circle bg-light border mt-4"
+                                                onclick="return confirm('Hapus produk {{ $items->product->name }} dari keranjang?')">
+                                                <i class="fa fa-times text-danger"></i>
+                                            </a>
+                                    </td>
+                                </tr>
+                                @empty
+                                <tr>
+                                    <td align="center" colspan="5">
+                                        <span class="badge bg-warning">==Keranjang Anda Masih Kosong==</span>
+                                    </td>
+                                </tr>
+                            @endforelse
                             <tr>
-                                <th scope="row">
-                                    <div class="d-flex align-items-center">
-                                        <img src="/product_pictures/{{ $items->product->picture }}"
-                                            class="img-fluid me-5 rounded-circle" style="width: 80px; height: 80px;"
-                                            alt="">
-                                    </div>
-                                </th>
-                                <td>
-                                    <p class="mb-0 mt-4">{{ $items->product->name }}</p>
-                                </td>
-                                <td>
-                                    <p class="mb-0 mt-4">Rp. {{ number_format($items->product->price) }}</p>
-                                </td>
-                                <td>
-                                    <div class="input-group quantity mt-4" style="width: 100px;">
-                                        <div class="input-group-btn">
-                                            <button class="btn btn-sm btn-minus rounded-circle bg-light border">
-                                                <i class="fa fa-minus"></i>
-                                            </button>
-                                        </div>
-                                        <input type="text" class="form-control form-control-sm text-center border-0"
-                                            value="{{ $items->quantity }}">
-                                        <div class="input-group-btn">
-                                            <button class="btn btn-sm btn-plus rounded-circle bg-light border">
-                                                <i class="fa fa-plus"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <form action="{{ route('cart-items.destroy', $items->id) }}" method="POST">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-md rounded-circle bg-light border mt-4" onclick="return confirm('Hapus produk {{ $items->product->name }} dari keranjang?')">
-                                            <i class="fa fa-times text-danger"></i>
-                                        </button>
-                                    </form>
+                                <td align="right" colspan="5">
+                                    <button type="submit"
+                                        class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4">Proses Pembayaran</button>
                                 </td>
                             </tr>
-                        @endforeach
+                        </form>
                     </tbody>
                 </table>
             </div>
@@ -89,8 +104,6 @@
                                 </p>
                             </div>
                         </div>
-                        <button class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4"
-                            type="button">Proses Pembayaran</button>
                     </div>
                 </div>
             </div>

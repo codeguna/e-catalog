@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\CartItemController;
 use App\Http\Controllers\FrontEndController;
 use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\ProductController;
+use App\Models\CartItem;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -10,10 +12,19 @@ Route::get('/', [FrontEndController::class, 'home']);
 Route::get('auth/google', [GoogleController::class, 'redirectToGoogle']);
 Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
 
+Route::group(['prefix' => 'product'], function () {
+    Route::get('/paket', [FrontEndController::class, 'ProductPaket'])->name('paket');
+    Route::get('/satuan', [FrontEndController::class, 'ProductSatuan'])->name('satuan');
+    Route::get('/sekolah', [FrontEndController::class, 'ProductSekolah'])->name('sekolah');
+});
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/addToCart/{id}', [FrontEndController::class, 'addToCart'])->name('addcart');
     Route::get('/mycart', [FrontEndController::class, 'myCart'])->name('myCart');
+    Route::post('/proceed', [FrontEndController::class, 'proceed'])->name('proceed');
     Route::resource('cart-items', 'CartItemController');
+    Route::get('/deleteSelected/{id}', [CartItemController::class, 'deleteSelected'])->name('delete');
+    Route::get('/myorder', [FrontEndController::class, 'myOrder'])->name('myorder');
+
 });
 
 Auth::routes(['register' => false]);

@@ -1,8 +1,8 @@
 <div class="navbar-nav mx-auto">
     <a href="{{ url('/') }}" class="nav-item nav-link {{ request()->is('/') ? 'active' : '' }}">Home</a>
-    <a href="shop.html" class="nav-item nav-link">Satuan</a>
-    <a href="shop.html" class="nav-item nav-link">Paket</a>
-    <a href="shop.html" class="nav-item nav-link">Sekolah</a>
+    <a href="{{ route('satuan') }}" class="nav-item nav-link">Satuan</a>
+    <a href="{{ route('paket') }}" class="nav-item nav-link">Paket</a>
+    <a href="{{ route('sekolah') }}" class="nav-item nav-link">Sekolah</a>
     {{-- NESTED MENU --}}
     {{-- <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
