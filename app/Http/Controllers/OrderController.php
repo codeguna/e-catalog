@@ -18,10 +18,10 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders = Order::paginate();
+        $orders = Order::orderBy('order_date','ASC')->get();
 
         return view('order.index', compact('orders'))
-            ->with('i', (request()->input('page', 1) - 1) * $orders->perPage());
+            ->with('i');
     }
 
     /**
@@ -47,7 +47,7 @@ class OrderController extends Controller
 
         $order = Order::create($request->all());
 
-        return redirect()->route('orders.index')
+        return redirect()->route('backend.orders.index')
             ->with('success', 'Order created successfully.');
     }
 
@@ -90,7 +90,7 @@ class OrderController extends Controller
 
         $order->update($request->all());
 
-        return redirect()->route('orders.index')
+        return redirect()->route('backend.orders.index')
             ->with('success', 'Order updated successfully');
     }
 
@@ -103,7 +103,7 @@ class OrderController extends Controller
     {
         $order = Order::find($id)->delete();
 
-        return redirect()->route('orders.index')
+        return redirect()->route('backend.orders.index')
             ->with('success', 'Order deleted successfully');
     }
 }

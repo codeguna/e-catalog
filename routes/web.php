@@ -4,14 +4,21 @@ use App\Http\Controllers\CartItemController;
 use App\Http\Controllers\FrontEndController;
 use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\ProductController;
+use App\Mail\TestMail;
 use App\Models\CartItem;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [FrontEndController::class, 'home']);
 Route::get('auth/google', [GoogleController::class, 'redirectToGoogle']);
 Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
 
+Route::get('/test-email', function () {
+    Mail::to('test@example.com')->send(new TestMail());
+
+    return 'Email berhasil dikirim!';
+});
 Route::group(['prefix' => 'product'], function () {
     Route::get('/paket', [FrontEndController::class, 'ProductPaket'])->name('paket');
     Route::get('/satuan', [FrontEndController::class, 'ProductSatuan'])->name('satuan');
@@ -43,4 +50,5 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'backend', 'as' => 'backend.
     Route::delete('users_mass_destroy', 'Admin\UsersController@massDestroy')->name('users.mass_destroy');
 
     Route::resource('products', 'ProductController');
+    Route::resource('orders', 'OrderController');
 });

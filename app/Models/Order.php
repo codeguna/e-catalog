@@ -44,6 +44,10 @@ class Order extends Model
     {
         return $this->hasMany('App\Models\OrderItem', 'order_id', 'id');
     }
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
     
 
 }

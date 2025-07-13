@@ -33,6 +33,26 @@ with font-awesome or any other icon font library -->
             </ul>
         </li>
         <li
+            class="nav-item {{ request()->is('backend/orders/*') || request()->is('backend/orders') ? 'menu-open' : '' }}">
+            <a href="#"
+                class="nav-link {{ request()->is('backend/orders/*') || request()->is('backend/orders') ? 'active' : '' }}">
+                <i class="fas fa-shopping-bag nav-icon"></i>
+                <p>
+                    Orders
+                    <i class="right fas fa-angle-left"></i>
+                </p>
+            </a>
+            <ul class="nav nav-treeview">
+                <li class="nav-item">
+                    <a href="{{ route('backend.orders.index') }}"
+                        class="nav-link {{ request()->is('backend/orders') || request()->is('backend/orders/*') ? 'active' : '' }}">
+                       <i class="fas fa-inbox nav-icon"></i>
+                        <p>Incoming Order</p>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li
             class="nav-item {{ request()->is('backend/roles/*') ||
             request()->is('backend/roles') ||
             request()->is('backend/permissions') ||
