@@ -493,5 +493,19 @@
 .footer .footer-item p.mb-4 {
     line-height: 35px;
 }
+
+.text-yellow {
+    color: #fbff24 !important;
+}
+.text-blue {
+    color: #194988 !important;
+}
+
+.bg-blue {
+    background-color: #194988 !important;
+}
+.bg-yellow {
+    background-color: #fbff24 !important;
+}
 /*** Footer End ***/
 

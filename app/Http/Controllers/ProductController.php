@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 
 /**
@@ -163,9 +164,14 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        $product = Product::find($id)->delete();
+        $product     = Product::select('picture')->where('id', $id)->first();
 
+        $file = public_path('product_picture/' . $product->picture);
+        $img = File::delete($file);
+
+        $product = Product::find($id)->delete();
+        
         return redirect()->route('backend.products.index')
             ->with('success', 'Product deleted successfully');
-    }    
+    }
 }

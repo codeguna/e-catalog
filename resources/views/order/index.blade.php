@@ -62,7 +62,7 @@
                                        </tr>
                                    @empty
                                        <tr>
-                                        <td colspan="5">
+                                        <td align="center" colspan="5">
                                             <span class="badge bg-warning">== Daftar Pesanan Kosong==</span>
                                         </td>
                                        </tr>

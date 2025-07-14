@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\OrderMail;
 use App\Models\CartItem;
 use App\Models\Order;
 use App\Models\OrderItem;
@@ -9,6 +10,7 @@ use App\Models\Product;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class FrontEndController extends Controller
 {
@@ -92,7 +94,10 @@ class FrontEndController extends Controller
 
         //Clear all items on cart
          $cartItems = CartItem::where('user_id','=',$myId)->delete();
-
+        //start Send Email
+            $to_email = env('EMAIL_RECIPIENT');
+            Mail::to($to_email)->send(new OrderMail($order));
+            //end of send email
         return redirect()->route('myorder');
         
     }
