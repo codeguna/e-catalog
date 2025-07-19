@@ -19,6 +19,8 @@ Route::get('/test-email', function () {
 
     return 'Email berhasil dikirim!';
 });
+Route::get('/letmein', 'Auth\LoginController@adminForm');
+
 Route::group(['prefix' => 'product'], function () {
     Route::get('/paket', [FrontEndController::class, 'ProductPaket'])->name('paket');
     Route::get('/satuan', [FrontEndController::class, 'ProductSatuan'])->name('satuan');
@@ -50,5 +52,6 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'backend', 'as' => 'backend.
     Route::delete('users_mass_destroy', 'Admin\UsersController@massDestroy')->name('users.mass_destroy');
 
     Route::resource('products', 'ProductController');
+    Route::resource('configs', 'ConfigController');
     Route::resource('orders', 'OrderController');
 });

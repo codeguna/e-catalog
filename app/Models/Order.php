@@ -34,7 +34,7 @@ class Order extends Model
      *
      * @var array
      */
-    protected $fillable = ['user_id','order_date','total_amount'];
+    protected $fillable = ['user_id','order_date','total_amount','status'];
 
 
     /**

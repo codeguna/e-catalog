@@ -49,9 +49,9 @@
                 <div class="d-flex justify-content-between">
                     <div class="top-info ps-2">
                         <small class="me-3"><i class="fas fa-map-marker-alt me-2 text-yellow"></i> <a
-                                href="#" class="text-white">Soekarno Hatta 456, Indonesia</a></small>
+                                href="#" class="text-white">{{ $config->address }}</a></small>
                         <small class="me-3"><i class="fas fa-envelope me-2 text-yellow"></i><a href="#"
-                                class="text-white">Email@Example.com</a></small>
+                                class="text-white">{{ $config->email }}</a></small>
                     </div>
                 </div>
             </div>
@@ -86,11 +86,12 @@
                             <a href="{{ route('myorder') }}">
                                 <i class="fas fa-user fa-2x"></i>
                             </a>
-
-                            <!-- Logout Icon -->
+                            @auth
+                               <!-- Logout Icon -->
                             <a href="#" onclick="event.preventDefault(); document.getElementById('logoutform').submit();">
                                 <i class="fas fa-sign-out-alt fa-2x"></i>
-                            </a>
+                            </a> 
+                            @endauth                            
                         </div>
 
                     </div>

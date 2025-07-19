@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Mail\OrderMail;
 use App\Models\CartItem;
+use App\Models\Config;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
@@ -17,7 +18,8 @@ class FrontEndController extends Controller
     public function home()
     {
         $product    = Product::orderBy('name', 'ASC')->get();
-        return view('frontend.index', compact('product'));
+        $config     = Config::where('id','=','1')->first();
+        return view('frontend.index', compact('product','config'));
     }
     public function ProductSatuan()
     {
@@ -58,13 +60,26 @@ class FrontEndController extends Controller
     {
         $myId       = Auth::user()->id;
         $cartList   = CartItem::where('user_id', $myId)->latest()->get();
-        return view('frontend.cart', compact('cartList'));
+        $config     = Config::where('id','=','1')->first();
+        return view('frontend.cart', compact('cartList','config'));
     }
 
     public function proceed(Request $request)
     {
-        $data   = $request->all();
-        $amount = array_sum($request->price);        
+
+        $data = $request->all();
+        $prices = $data["price"];
+        $quantities = $data["quantity"];
+
+        $totalAmount = [];
+
+        foreach ($prices as $key => $price) {
+            $qty = isset($quantities[$key]) ? $quantities[$key] : 0;
+            $totalAmount[] = $price * $qty;
+        }
+        $amount = array_sum($totalAmount);
+        return $amount;
+
         $today  = Carbon::now()->format('Y-m-d');
         $myId   = Auth::user()->id;
 
@@ -81,7 +96,7 @@ class FrontEndController extends Controller
         $quantity   = $data["quantity"];
         $price      = $data["price"];
 
-         if ($product_id) {
+        if ($product_id) {
             foreach ($product_id  as $key => $value) {
                 $orderItems             = new OrderItem();
                 $orderItems->order_id   = $order->id;
@@ -93,19 +108,19 @@ class FrontEndController extends Controller
         }
 
         //Clear all items on cart
-         $cartItems = CartItem::where('user_id','=',$myId)->delete();
+        $cartItems = CartItem::where('user_id', '=', $myId)->delete();
         //start Send Email
-            $to_email = env('EMAIL_RECIPIENT');
-            Mail::to($to_email)->send(new OrderMail($order));
-            //end of send email
+        $to_email = env('EMAIL_RECIPIENT');
+        Mail::to($to_email)->send(new OrderMail($order));
+        //end of send email
         return redirect()->route('myorder');
-        
     }
 
     public function myOrder()
     {
         $myId   = Auth::user()->id;
-        $orders = Order::where('user_id','=',$myId)->orderBy('order_date','ASC')->get();
-        return view('frontend.my-order',compact('orders'))->with('i');
+        $orders = Order::where('user_id', '=', $myId)->orderBy('order_date', 'ASC')->get();
+        $config     = Config::where('id','=','1')->first();
+        return view('frontend.my-order', compact('orders','config'))->with('i');
     }
 }
