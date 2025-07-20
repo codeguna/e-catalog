@@ -1,7 +1,7 @@
-@extends('layouts.app')
+@extends('layouts.dashboard')
 
-@section('template_title')
-    Config
+@section('title')
+    Konfigurasi Halaman Website
 @endsection
 
 @section('content')
@@ -13,14 +13,8 @@
                         <div style="display: flex; justify-content: space-between; align-items: center;">
 
                             <span id="card_title">
-                                {{ __('Config') }}
+                                <i class="fas fa-pen-alt    "></i> Update
                             </span>
-
-                             <div class="float-right">
-                                <a href="{{ route('backend.configs.create') }}" class="btn btn-primary btn-sm float-right"  data-placement="left">
-                                  {{ __('Create New') }}
-                                </a>
-                              </div>
                         </div>
                     </div>
                     @if ($message = Session::get('success'))
@@ -30,57 +24,85 @@
                     @endif
 
                     <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-striped table-hover">
-                                <thead class="thead">
-                                    <tr>
-                                        <th>No</th>
-                                        
-										<th>Title</th>
-										<th>Subtitle</th>
-										<th>Mobile</th>
-										<th>Address</th>
-										<th>Email</th>
-										<th>Facebook</th>
-										<th>Youtube</th>
-										<th>Instagram</th>
-										<th>Why</th>
-
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($configs as $config)
-                                        <tr>
-                                            <td>{{ ++$i }}</td>
-                                            
-											<td>{{ $config->title }}</td>
-											<td>{{ $config->subtitle }}</td>
-											<td>{{ $config->mobile }}</td>
-											<td>{{ $config->address }}</td>
-											<td>{{ $config->email }}</td>
-											<td>{{ $config->facebook }}</td>
-											<td>{{ $config->youtube }}</td>
-											<td>{{ $config->instagram }}</td>
-											<td>{{ $config->why }}</td>
-
-                                            <td>
-                                                <form action="{{ route('backend.configs.destroy',$config->id) }}" method="POST">
-                                                    <a class="btn btn-sm btn-primary " href="{{ route('backend.configs.show',$config->id) }}"><i class="fa fa-fw fa-eye"></i> {{ __('Show') }}</a>
-                                                    <a class="btn btn-sm btn-success" href="{{ route('backend.configs.edit',$config->id) }}"><i class="fa fa-fw fa-edit"></i> {{ __('Edit') }}</a>
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-fw fa-trash"></i> {{ __('Delete') }}</button>
-                                                </form>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
+                        <form method="POST" action="{{ route('backend.configs.update', $config->id) }}" role="form"
+                            enctype="multipart/form-data">
+                            {{ method_field('PATCH') }}
+                            @csrf
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Judul Utama:</label>
+                                        <textarea class="form-control" name="title" cols="30" rows="3">{{ $config->title }}</textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Selogan:</label>
+                                        <textarea class="form-control" name="subtitle" cols="30" rows="3">{{ $config->subtitle }}</textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Alamat:</label>
+                                        <textarea class="form-control" name="address" cols="30" rows="3">{{ $config->address }}</textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Handphone:</label>
+                                        <input type="tel" class="form-control" name="mobile"
+                                            value="{{ $config->mobile }}">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Email:</label>
+                                        <input type="email" class="form-control" name="email"
+                                            value="{{ $config->email }}">
+                                        <small class="text-muted">contoh: mail@mail.com</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Facebook:</label>
+                                        <input type="text" class="form-control" name="facebook"
+                                            value="{{ $config->facebook }}">
+                                        <small class="text-muted">contoh: https://facebook.com/tokosaya</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Youtube:</label>
+                                        <input type="text" class="form-control" name="youtube"
+                                            value="{{ $config->youtube }}">
+                                        <small class="text-muted">contoh: https://youtube.com/@tokosaya</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Instagram:</label>
+                                        <input type="text" class="form-control" name="instagram"
+                                            value="{{ $config->instagram }}">
+                                        <small class="text-muted">contoh: https://instagram.com/tokosaya</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Mengapa Harus Memilih Kami:</label>
+                                        <textarea class="form-control" name="why" cols="30" rows="3">{{ $config->why }}</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fa fa-check-circle" aria-hidden="true"></i> Simpan Perubahan
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
-                {!! $configs->links() !!}
             </div>
         </div>
     </div>

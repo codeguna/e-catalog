@@ -27,6 +27,8 @@
                                             <th scope="col">No.</th>
                                             <th scope="col">Tanggal Belanja</th>
                                             <th scope="col">Total Belanja</th>
+                                            <th scope="col">Detail Belanja</th>
+                                            <th scope="col">Status</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -35,6 +37,37 @@
                                                 <td>{{ ++$i }}</td>
                                                 <td>{{ $order->order_date }}</td>
                                                 <td>Rp. {{ number_format($order->total_amount) }},-</td>
+                                                <td>
+                                                    <p>
+                                                        <button class="btn btn-primary" type="button"
+                                                            data-bs-toggle="collapse" data-bs-target="#content{{ $order->id }}"
+                                                            aria-expanded="false" aria-controls="content{{ $order->id }}">
+                                                          <i class="fa fa-shopping-bag" aria-hidden="true"></i>  Detail
+                                                        </button>
+                                                    </p>
+                                                    <div class="collapse" id="content{{ $order->id }}">
+                                                          @foreach ($order->orderItems as $item)
+                                                    <ol>
+                                                        <li>{{ $item->product->name }} | Rp.
+                                                            {{ number_format($item->product->price) }}</li>
+                                                    </ol>
+                                                @endforeach
+                                                    </div>
+
+                                                </td>
+                                                <td>
+                                                    @if ($order->status == 0)
+                                                        <span class="badge bg-warning text-dark w-100">
+                                                            <i class="fa fa-info-circle" aria-hidden="true"></i> Menunggu
+                                                            Proses
+                                                        </span>
+                                                    @elseif ($order->status == 1)
+                                                        <span class="badge bg-success text-light w-100">
+                                                            <i class="fa fa-check-circle" aria-hidden="true"></i> Sudah
+                                                            Proses
+                                                        </span>
+                                                    @endif
+                                                </td>                                                
                                             </tr>
                                         @empty
                                         @endforelse

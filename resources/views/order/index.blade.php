@@ -41,32 +41,61 @@
                                         <th>Tanggal Pesan</th>
                                         <th>Detail Belanja</th>
                                         <th>Total Belanja</th>
+                                        <th>Status</th>
                                         <th><i class="fas fa-cog"></i></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                   @forelse ($orders as $order)
-                                       <tr>
-                                        <td>{{ ++$i }}</td>
-                                        <td>{{ $order->user->name }}</td>
-                                        <td>{{ $order->order_date }}</td>
-                                        <td>
-                                            @foreach ($order->orderItems as $item)
-                                                <ol>
-                                                    <li>{{ $item->product->name }} | Rp. {{ number_format($item->product->price) }}</li>
-                                                </ol>
-                                            @endforeach
-                                        </td>
-                                        <td>Rp. {{ number_format($order->total_amount) }},-</td>
-                                        <td></td>
-                                       </tr>
-                                   @empty
-                                       <tr>
-                                        <td align="center" colspan="5">
-                                            <span class="badge bg-warning">== Daftar Pesanan Kosong==</span>
-                                        </td>
-                                       </tr>
-                                   @endforelse
+                                    @forelse ($orders as $order)
+                                        <tr>
+                                            <td>{{ ++$i }}</td>
+                                            <td>{{ $order->user->name }}</td>
+                                            <td>{{ $order->order_date }}</td>
+                                            <td>
+                                                @foreach ($order->orderItems as $item)
+                                                    <ol>
+                                                        <li>{{ $item->product->name }} | Rp.
+                                                            {{ number_format($item->product->price) }}</li>
+                                                    </ol>
+                                                @endforeach
+                                            </td>
+                                            <td>Rp. {{ number_format($order->total_amount) }},-</td>
+                                            <td>
+                                                @if ($order->status == 0)
+                                                    <span class="badge bg-warning text-dark w-100">
+                                                        <i class="fa fa-times-circle" aria-hidden="true"></i> Menunggu
+                                                        Proses
+                                                    </span>
+                                                @elseif ($order->status == 1)
+                                                    <span class="badge bg-success text-dark w-100">
+                                                        <i class="fa fa-check-circle" aria-hidden="true"></i> Sudah Proses
+                                                    </span>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if ($order->status == 0)
+                                                    <a class="btn btn-sm btn-success"
+                                                        href="{{ route('backend.updateorder', $order->id) }}" target="_blank"
+                                                        title="Proses Pesanan">
+                                                        <i class="fa fa-check" aria-hidden="true"></i>
+                                                    </a>
+                                                @elseif ($order->status == 1)
+                                                    <a class="btn btn-sm btn-danger"
+                                                        href="{{ route('backend.updateorder', $order->id) }}" target="_blank"
+                                                        title="Batalkan Proses">
+                                                        <i class="fa fa-times" aria-hidden="true"></i>
+                                                    </a>
+                                                @endif
+
+                                            </td>
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td align="center" colspan="5">
+                                                <span class="badge bg-warning">== Daftar Pesanan Kosong==</span>
+                                            </td>
+                                        </tr>
+                                    @endforelse
                                 </tbody>
                             </table>
                         </div>

@@ -8,7 +8,15 @@ with font-awesome or any other icon font library -->
                 <i class="nav-icon fas fa-th"></i>
                 <p>
                     Dashboard
-                    <span class="right badge badge-danger">+1</span>
+                </p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{{ route('backend.configs.index') }}"
+                class="nav-link {{ request()->is('backend/configs') || request()->is('backend/configs/*') ? 'active' : '' }}">
+                <i class="fas fa-cogs nav-icon"></i>
+                <p>
+                    Konfigurasi Web
                 </p>
             </a>
         </li>
@@ -18,7 +26,7 @@ with font-awesome or any other icon font library -->
                 class="nav-link {{ request()->is('backend/products/*') || request()->is('backend/products') ? 'active' : '' }}">
                 <i class="fa fa-asterisk nav-icon" aria-hidden="true"></i>
                 <p>
-                    Products
+                    Produk
                     <i class="right fas fa-angle-left"></i>
                 </p>
             </a>
@@ -27,7 +35,7 @@ with font-awesome or any other icon font library -->
                     <a href="{{ route('backend.products.index') }}"
                         class="nav-link {{ request()->is('backend/products') || request()->is('backend/products/*') ? 'active' : '' }}">
                         <i class="fa fa-list nav-icon" aria-hidden="true"></i>
-                        <p>List Product</p>
+                        <p>Daftar Produk</p>
                     </a>
                 </li>
             </ul>
@@ -38,7 +46,7 @@ with font-awesome or any other icon font library -->
                 class="nav-link {{ request()->is('backend/orders/*') || request()->is('backend/orders') ? 'active' : '' }}">
                 <i class="fas fa-shopping-bag nav-icon"></i>
                 <p>
-                    Orders
+                    Pesanan
                     <i class="right fas fa-angle-left"></i>
                 </p>
             </a>
@@ -46,8 +54,15 @@ with font-awesome or any other icon font library -->
                 <li class="nav-item">
                     <a href="{{ route('backend.orders.index') }}"
                         class="nav-link {{ request()->is('backend/orders') || request()->is('backend/orders/*') ? 'active' : '' }}">
-                       <i class="fas fa-inbox nav-icon"></i>
-                        <p>Incoming Order</p>
+                        <i class="fas fa-inbox nav-icon"></i>
+                        <p>Pesanan Masuk</p>
+                        @php
+                            $year = date('Y');
+                            $incomingOrder = App\Models\Order::where('status', '=', '0')
+                                ->whereYear('created_at', $year)
+                                ->count();
+                        @endphp
+                        <span class="right badge badge-danger">+{{ $incomingOrder }}</span>
                     </a>
                 </li>
             </ul>
@@ -72,7 +87,7 @@ with font-awesome or any other icon font library -->
                     : '' }}">
                 <i class="nav-icon fas fa-tachometer-alt"></i>
                 <p>
-                    Users Management
+                    Pengelolaan Pengguna
                     <i class="right fas fa-angle-left"></i>
                 </p>
             </a>

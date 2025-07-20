@@ -82,6 +82,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     </div>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="{{ url('/') }}" title="Lihat Website" target="_blank">
+                        <i class="fas fa-globe"></i>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" data-widget="fullscreen" href="#" role="button">
                         <i class="fas fa-expand-arrows-alt"></i>
                     </a>

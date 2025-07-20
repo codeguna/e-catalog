@@ -3,6 +3,7 @@
 use App\Http\Controllers\CartItemController;
 use App\Http\Controllers\FrontEndController;
 use App\Http\Controllers\GoogleController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Mail\TestMail;
 use App\Models\CartItem;
@@ -19,7 +20,7 @@ Route::get('/test-email', function () {
 
     return 'Email berhasil dikirim!';
 });
-Route::get('/letmein', 'Auth\LoginController@adminForm');
+Route::get('/login-admin', 'Auth\LoginController@adminForm');
 
 Route::group(['prefix' => 'product'], function () {
     Route::get('/paket', [FrontEndController::class, 'ProductPaket'])->name('paket');
@@ -54,4 +55,6 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'backend', 'as' => 'backend.
     Route::resource('products', 'ProductController');
     Route::resource('configs', 'ConfigController');
     Route::resource('orders', 'OrderController');
+    
+    Route::get('/updateorder/{id}', [OrderController::class, 'updateOrder'])->name('updateorder');
 });

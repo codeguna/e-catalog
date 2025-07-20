@@ -18,10 +18,9 @@ class ConfigController extends Controller
      */
     public function index()
     {
-        $configs = Config::paginate();
+        $config = Config::find(1);
 
-        return view('config.index', compact('configs'))
-            ->with('i', (request()->input('page', 1) - 1) * $configs->perPage());
+        return view('config.index', compact('config'));
     }
 
     /**
@@ -91,7 +90,7 @@ class ConfigController extends Controller
         $config->update($request->all());
 
         return redirect()->route('backend.configs.index')
-            ->with('success', 'Config updated successfully');
+            ->with('success', 'Berhasil Memperbarui Konfigurasi Web!');
     }
 
     /**

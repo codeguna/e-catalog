@@ -47,6 +47,6 @@ class LoginController extends Controller
 
     public function adminForm()
     {
-        return view('auth.loginLTE');
+        return view('auth.loginAdmin');
     }
 }

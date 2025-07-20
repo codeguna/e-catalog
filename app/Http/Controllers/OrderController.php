@@ -18,7 +18,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders = Order::orderBy('order_date','ASC')->get();
+        $orders = Order::orderBy('order_date', 'ASC')->orderBy('status', 'ASC')->get();
 
         return view('order.index', compact('orders'))
             ->with('i');
@@ -105,5 +105,23 @@ class OrderController extends Controller
 
         return redirect()->route('backend.orders.index')
             ->with('success', 'Order deleted successfully');
+    }
+
+    public function updateOrder($id)
+    {
+        $order          = Order::find($id);
+        $statusOrder    = $order->status;
+
+        if ($statusOrder == 1) {
+            $statusValue    = 0;
+        } elseif ($statusOrder == 0) {
+            $statusValue    = 1;
+        }
+
+        $order->update([
+            'status' => $statusValue
+        ]);
+
+        return redirect()->back()->with('success','Berhasil memperbarui status pesanan!');
     }
 }

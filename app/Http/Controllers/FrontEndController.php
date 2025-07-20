@@ -78,7 +78,6 @@ class FrontEndController extends Controller
             $totalAmount[] = $price * $qty;
         }
         $amount = array_sum($totalAmount);
-        return $amount;
 
         $today  = Carbon::now()->format('Y-m-d');
         $myId   = Auth::user()->id;
@@ -88,6 +87,7 @@ class FrontEndController extends Controller
             'user_id'       => $myId,
             'order_date'    => $today,
             'total_amount'  => $amount,
+            'status'        => 0,
             'created_at'    => now()
         ]);
 
@@ -119,7 +119,7 @@ class FrontEndController extends Controller
     public function myOrder()
     {
         $myId   = Auth::user()->id;
-        $orders = Order::where('user_id', '=', $myId)->orderBy('order_date', 'ASC')->get();
+        $orders = Order::where('user_id', '=', $myId)->orderBy('status', 'ASC')->orderBy('order_date', 'ASC')->get();
         $config     = Config::where('id','=','1')->first();
         return view('frontend.my-order', compact('orders','config'))->with('i');
     }
