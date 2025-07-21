@@ -38,6 +38,7 @@
                                         <th>No</th>
 
                                         <th>Nama Pemesan</th>
+                                        <th>Nomor Handphone Pemesan</th>
                                         <th>Tanggal Pesan</th>
                                         <th>Detail Belanja</th>
                                         <th>Total Belanja</th>
@@ -49,7 +50,12 @@
                                     @forelse ($orders as $order)
                                         <tr>
                                             <td>{{ ++$i }}</td>
-                                            <td>{{ $order->user->name }}</td>
+                                            <td>{{ $order->user->name ?? '' }}</td>
+                                            <td>
+                                                <a href="https://wa.me/{{ $order->user->mobile ?? '' }}" target="_blank">
+                                                   <i class="fas fa-phone"></i> {{ $order->user->mobile ?? '' }}
+                                                </a>
+                                            </td>
                                             <td>{{ $order->order_date }}</td>
                                             <td>
                                                 @foreach ($order->orderItems as $item)
@@ -75,14 +81,14 @@
                                             <td>
                                                 @if ($order->status == 0)
                                                     <a class="btn btn-sm btn-success"
-                                                        href="{{ route('backend.updateorder', $order->id) }}" target="_blank"
-                                                        title="Proses Pesanan">
+                                                        href="{{ route('backend.updateorder', $order->id) }}"
+                                                        target="_blank" title="Proses Pesanan">
                                                         <i class="fa fa-check" aria-hidden="true"></i>
                                                     </a>
                                                 @elseif ($order->status == 1)
                                                     <a class="btn btn-sm btn-danger"
-                                                        href="{{ route('backend.updateorder', $order->id) }}" target="_blank"
-                                                        title="Batalkan Proses">
+                                                        href="{{ route('backend.updateorder', $order->id) }}"
+                                                        target="_blank" title="Batalkan Proses">
                                                         <i class="fa fa-times" aria-hidden="true"></i>
                                                     </a>
                                                 @endif
