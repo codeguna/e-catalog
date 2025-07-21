@@ -34,6 +34,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('cart-items', 'CartItemController');
     Route::get('/deleteSelected/{id}', [CartItemController::class, 'deleteSelected'])->name('delete');
     Route::get('/myorder', [FrontEndController::class, 'myOrder'])->name('myorder');
+    Route::post('/updatemobile', [FrontEndController::class, 'updateMobile'])->name('updatemobile');
 
 });
 

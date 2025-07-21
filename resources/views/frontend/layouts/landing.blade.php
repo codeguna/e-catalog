@@ -48,8 +48,8 @@
             <div class="container topbar bg-blue d-none d-lg-block">
                 <div class="d-flex justify-content-between">
                     <div class="top-info ps-2">
-                        <small class="me-3"><i class="fas fa-map-marker-alt me-2 text-yellow"></i> <a
-                                href="#" class="text-white">{{ $config->address }}</a></small>
+                        <small class="me-3"><i class="fas fa-map-marker-alt me-2 text-yellow"></i> <a href="#"
+                                class="text-white">{{ $config->address }}</a></small>
                         <small class="me-3"><i class="fas fa-envelope me-2 text-yellow"></i><a href="#"
                                 class="text-white">{{ $config->email }}</a></small>
                     </div>
@@ -67,31 +67,34 @@
                     <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
                         @include('frontend.layouts.menu')
                         <div class="d-flex align-items-center m-3 me-0 gap-3">
-                            <!-- Cart Icon -->
-                            <a href="{{ route('myCart') }}" class="position-relative">
-                                <i class="fa fa-shopping-bag fa-2x"></i>
-                                @auth
-                                    @php
-                                        $cartCount = App\Models\CartItem::where('user_id', Auth::id())->count();
-                                    @endphp
-                                    <span
-                                        class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark"
-                                        style="top: -5px; left: 15px; height: 20px; min-width: 20px; font-size: 0.8rem;">
-                                        {{ $cartCount }}
-                                    </span>
-                                @endauth
-                            </a>
+                            @cannot('users_manage')
+                                <!-- Cart Icon -->
+                                <a href="{{ route('myCart') }}" class="position-relative">
+                                    <i class="fa fa-shopping-bag fa-2x"></i>
+                                    @auth
+                                        @php
+                                            $cartCount = App\Models\CartItem::where('user_id', Auth::id())->count();
+                                        @endphp
+                                        <span
+                                            class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark"
+                                            style="top: -5px; left: 15px; height: 20px; min-width: 20px; font-size: 0.8rem;">
+                                            {{ $cartCount }}
+                                        </span>
+                                    @endauth
+                                </a>
 
-                            <!-- Order Icon -->
-                            <a href="{{ route('myorder') }}">
-                                <i class="fas fa-user fa-2x"></i>
-                            </a>
+                                <!-- Order Icon -->
+                                <a href="{{ route('myorder') }}">
+                                    <i class="fas fa-user fa-2x"></i>
+                                </a>
+                            @endcannot
                             @auth
-                               <!-- Logout Icon -->
-                            <a href="#" onclick="event.preventDefault(); document.getElementById('logoutform').submit();">
-                                <i class="fas fa-sign-out-alt fa-2x"></i>
-                            </a> 
-                            @endauth                            
+                                <!-- Logout Icon -->
+                                <a href="#"
+                                    onclick="event.preventDefault(); document.getElementById('logoutform').submit();">
+                                    <i class="fas fa-sign-out-alt fa-2x"></i>
+                                </a>
+                            @endauth
                         </div>
 
                     </div>

@@ -8,6 +8,7 @@ use App\Models\Config;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,29 +19,29 @@ class FrontEndController extends Controller
     public function home()
     {
         $product    = Product::orderBy('name', 'ASC')->get();
-        $config     = Config::where('id','=','1')->first();
-        return view('frontend.index', compact('product','config'));
+        $config     = Config::where('id', '=', '1')->first();
+        return view('frontend.index', compact('product', 'config'));
     }
     public function ProductSatuan()
     {
         $product    = Product::where('type', '=', '1')->orderBy('name', 'ASC')->get();
         $name       = 'Satuan';
-        $config     = Config::where('id','=','1')->first();
-        return view('frontend.product', compact('product', 'name','config'));
+        $config     = Config::where('id', '=', '1')->first();
+        return view('frontend.product', compact('product', 'name', 'config'));
     }
     public function ProductPaket()
     {
         $product    = Product::where('type', '=', '2')->orderBy('name', 'ASC')->get();
         $name       = 'Paket';
-        $config     = Config::where('id','=','1')->first();
-        return view('frontend.product', compact('product', 'name','config'));
+        $config     = Config::where('id', '=', '1')->first();
+        return view('frontend.product', compact('product', 'name', 'config'));
     }
     public function ProductSekolah()
     {
         $product    = Product::where('type', '=', '3')->orderBy('name', 'ASC')->get();
         $name       = 'Sekolah';
-        $config     = Config::where('id','=','1')->first();
-        return view('frontend.product', compact('product', 'name','config'));
+        $config     = Config::where('id', '=', '1')->first();
+        return view('frontend.product', compact('product', 'name', 'config'));
     }
 
     public function addToCart($id)
@@ -63,8 +64,13 @@ class FrontEndController extends Controller
     {
         $myId       = Auth::user()->id;
         $cartList   = CartItem::where('user_id', $myId)->latest()->get();
-        $config     = Config::where('id','=','1')->first();
-        return view('frontend.cart', compact('cartList','config'));
+        $config     = Config::where('id', '=', '1')->first();
+        $mobile     = User::find($myId);
+
+        if ($mobile->mobile === null) {
+            return view('frontend.mobile', compact('config'))->with('warning', 'Silahkan Perbaharui Nomor Handphone Anda!');
+        }
+        return view('frontend.cart', compact('cartList', 'config'));
     }
 
     public function proceed(Request $request)
@@ -123,7 +129,17 @@ class FrontEndController extends Controller
     {
         $myId   = Auth::user()->id;
         $orders = Order::where('user_id', '=', $myId)->orderBy('status', 'ASC')->orderBy('order_date', 'ASC')->get();
-        $config     = Config::where('id','=','1')->first();
-        return view('frontend.my-order', compact('orders','config'))->with('i');
+        $config     = Config::where('id', '=', '1')->first();
+        return view('frontend.my-order', compact('orders', 'config'))->with('i');
+    }
+
+    public function updateMobile(Request $request)
+    {
+        $user   = User::find(Auth::user()->id);
+        $mobile = $request->mobile;
+        $user->update([
+            'mobile' => $mobile
+        ]);
+        return redirect()->route('myCart')->with('success', 'Berhasil Perbaharui Nomor Handphone!');
     }
 }

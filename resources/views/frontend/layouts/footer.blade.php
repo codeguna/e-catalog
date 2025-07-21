@@ -45,8 +45,11 @@
                     @guest
                         <a class="btn-link" href="">Login</a>
                     @endguest
+
                     @auth
-                        <a class="btn-link" href="">Pesanan Saya</a>
+                        @cannot('users_manage')
+                            <a class="btn-link" href="">Pesanan Saya</a>
+                        @endcannot
                         <a class="btn-link" href="#"
                             onclick="event.preventDefault(); document.getElementById('logoutform').submit();">Logout</a>
                     @endauth
