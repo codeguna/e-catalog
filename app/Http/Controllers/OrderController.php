@@ -19,9 +19,9 @@ class OrderController extends Controller
      */
     public function index()
     {
-        if (! Gate::allows('users_manage')) {
-            return abort(401);
-        }
+        // if (! Gate::allows('users_manage')) {
+        //     return abort(401);
+        // }
         $orders = Order::orderBy('order_date', 'ASC')->orderBy('status', 'ASC')->get();
 
         return view('order.index', compact('orders'))
