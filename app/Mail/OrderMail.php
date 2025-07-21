@@ -33,6 +33,7 @@ class OrderMail extends Mailable
     {
          return $this->view('emails.order')
             ->from('no-reply@ecatalog.com', 'ecatalog System')
+            ->to(env('MAIL_RECIPIENT')) 
             ->subject('Order Masuk!');
     }
 }
