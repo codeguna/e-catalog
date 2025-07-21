@@ -25,19 +25,22 @@ class FrontEndController extends Controller
     {
         $product    = Product::where('type', '=', '1')->orderBy('name', 'ASC')->get();
         $name       = 'Satuan';
-        return view('frontend.product', compact('product', 'name'));
+        $config     = Config::where('id','=','1')->first();
+        return view('frontend.product', compact('product', 'name','config'));
     }
     public function ProductPaket()
     {
         $product    = Product::where('type', '=', '2')->orderBy('name', 'ASC')->get();
         $name       = 'Paket';
-        return view('frontend.product', compact('product', 'name'));
+        $config     = Config::where('id','=','1')->first();
+        return view('frontend.product', compact('product', 'name','config'));
     }
     public function ProductSekolah()
     {
         $product    = Product::where('type', '=', '3')->orderBy('name', 'ASC')->get();
         $name       = 'Sekolah';
-        return view('frontend.product', compact('product', 'name'));
+        $config     = Config::where('id','=','1')->first();
+        return view('frontend.product', compact('product', 'name','config'));
     }
 
     public function addToCart($id)

@@ -20,6 +20,9 @@ class ProductController extends Controller
      */
     public function index()
     {
+        if (! Gate::allows('users_manage')) {
+            return abort(401);
+        }
         $products = Product::all();
 
         return view('product.index', compact('products'))

@@ -25,6 +25,9 @@ class HomeController extends Controller
      */
     public function index()
     {
+        if (! Gate::allows('users_manage')) {
+            return abort(401);
+        }
         $year = date('Y');
         $incomingOrder  = Order::where('status','=','0')->whereYear('created_at',$year)->count();
         $processOrder   = Order::where('status','=','1')->whereYear('created_at',$year)->count();
