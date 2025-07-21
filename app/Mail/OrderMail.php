@@ -32,7 +32,7 @@ class OrderMail extends Mailable
     public function build()
     {
          return $this->view('emails.order')
-            ->from('no-reply@ecatalog.com', 'ecatalog Shop')
+            ->from('no-reply@ecatalog.com', 'ecatalog System')
             ->subject('Order Masuk!');
     }
 }

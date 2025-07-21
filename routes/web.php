@@ -16,7 +16,7 @@ Route::get('auth/google', [GoogleController::class, 'redirectToGoogle']);
 Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
 
 Route::get('/test-email', function () {
-    Mail::to('test@example.com')->send(new TestMail());
+    Mail::to('gunadhi@lpkia.ac.id')->send(new TestMail());
 
     return 'Email berhasil dikirim!';
 });
