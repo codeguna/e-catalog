@@ -49,7 +49,7 @@
                                                           @foreach ($order->orderItems as $item)
                                                     <ol>
                                                         <li>{{ $item->product->name??'' }} | Rp.
-                                                            {{ number_format($item->product->price) }}</li>
+                                                            {{ number_format($item->product->price)??'' }}</li>
                                                     </ol>
                                                 @endforeach
                                                     </div>
